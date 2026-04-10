@@ -1,0 +1,90 @@
+﻿DATA_BLOCK "Process_VAR"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+NON_RETAIN
+   VAR 
+      BUFFER : Array[1..4] of Int;
+   END_VAR
+
+
+BEGIN
+
+END_DATA_BLOCK
+
+FUNCTION "Volume_Check" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_TEMP 
+      i : Int;   // iteraction variable for the buffers
+      TEMP_BUFFER : Real;   // used to sum all tank buffer levels
+      TEMP_VOL : Real;   // used in the convertion to m³
+   END_VAR
+
+   VAR CONSTANT 
+      MIN_LEVEL : Int := 1178;   // 30% of total capacity (LIT = 8294)
+      MAX_LEVEL : Int := 3535;   // 90% of total capacity ( LIT = 24883)
+      FULL : Int := 3927;   // 100% of total capacity ( LIT = 27648)
+      FULL_CAP : Real := 3927.0;   // Full tank capacity (used in the total volume - m³)
+   END_VAR
+
+
+BEGIN
+	// Dimmensions of each tank buffer: Radius = 0,25m, Height (@100%) = 5m
+	// Volume in m³ = PI * r² * h * 1000
+	
+	#TEMP_BUFFER := 0.0;
+	#TEMP_VOL := 0;
+	
+	IF "HMI_UPDATE" THEN
+	    
+	    FOR #i := 1 TO 4 DO
+	        IF "Process_VAR".BUFFER[#i] > 100 THEN
+	            "Process_VAR".BUFFER[#i] := 100;
+	        ELSIF "Process_VAR".BUFFER[#i] < 0 THEN
+	            "Process_VAR".BUFFER[#i] := 0;
+	        #TEMP_BUFFER := #TEMP_BUFFER + "Process_VAR".BUFFER[#i];
+	        ELSE
+	            #TEMP_BUFFER := #TEMP_BUFFER + "Process_VAR".BUFFER[#i];
+	        END_IF;
+	    END_FOR;
+	    
+	    #TEMP_VOL := (#TEMP_BUFFER * #FULL_CAP) / 400;
+	    "HMI_TOTAL_VOL" := #TEMP_VOL;
+	    
+	ELSIF "HMI_RESET" THEN
+	    
+	    #TEMP_BUFFER := 0;
+	    "HMI_TOTAL_VOL" := #TEMP_BUFFER;
+	        
+	END_IF;
+	
+	CASE "HMI_TOTAL_VOL" OF
+	    0..#MIN_LEVEL:                  // 0 to 30%  Low
+	        "H1_HMI" := TRUE;
+	        "H2_HMI" := FALSE;
+	        "H3_HMI" := FALSE;
+	        
+	    #MIN_LEVEL..#MAX_LEVEL:               // 30% to 90% OK
+	        "H1_HMI" := FALSE;
+	        "H2_HMI" := TRUE;
+	        "H3_HMI" := FALSE;
+	        
+	    #MAX_LEVEL..#FULL:               // 90% to 100% Max
+	        "H1_HMI" := FALSE;
+	        "H2_HMI" := FALSE;
+	        "H3_HMI" := TRUE;
+	    ELSE
+	        "H1_HMI" := FALSE;
+	        "H2_HMI" := FALSE;
+	        "H3_HMI" := TRUE;
+	END_CASE;
+	        
+	        
+	
+	
+	
+	
+	
+	
+END_FUNCTION
+
