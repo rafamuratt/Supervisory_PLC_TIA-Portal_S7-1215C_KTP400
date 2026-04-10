@@ -9,7 +9,7 @@ This is a simulation version of a supervisory system for multi-tank volume monit
 🚀 System Overview  
 This project implements a multi-tank volume supervisory system, featuring:  
 
-Multi-Tank Volume Calculation (Simulation): Reads level inputs (0–100%) for 4 tank buffers entered manually via HMI, with built-in safety clamping to keep each buffer within valid bounds. No real analog signals are read.
+Multi-Tank Volume Calculation (Simulation): Reads level inputs (0–100%) for 4 tank buffers entered manually via HMI, with built-in safety clamping to keep each buffer within valid bounds. No real analog signals are read.  
 Total Volume Aggregation: Combines all 4 buffer levels and converts the result into a total volume in m³, based on cylindrical tank geometry (r = 0.25 m, h = 5 m per tank).  
 Three-State Status Logic: A CASE block evaluates the total volume against Low (0–30%), OK (30–90%), and High (90–100%) thresholds, activating the corresponding HMI indicator (H1/H2/H3).    
 HMI Color-Coded Status Display: The "System Level" label changes dynamically — Red blink for Low, White for OK, and Orange blink for High — giving the operator an immediate visual reference.  
