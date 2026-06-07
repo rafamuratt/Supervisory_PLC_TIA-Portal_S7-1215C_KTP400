@@ -50,7 +50,7 @@ Low Level (0–30%): H1 Red active — HMI label displays "System Level: Low" bl
 Normal Level (30–90%): H2 Green active — HMI label displays "System Level: OK" in White.  
 High Level (90–100%): H3 Yellow active — HMI label displays "System Level: High" blinks in Orange.  
 Volume Calculation: Total Volume (m³) = (Sum of 4 buffer levels × 3927) / 400 — based on cylindrical geometry per tank.  
-NO EMERGENCY CONTROL IS IMPLEMENTED.  
+⚠️ CAUTION: NO EMERGENCY CONTROL IS IMPLEMENTED.  
 
 ---
 
