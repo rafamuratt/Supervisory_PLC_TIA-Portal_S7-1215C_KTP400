@@ -1,4 +1,4 @@
-# Supervisory_PLC_TIA-Portal_S7-1215C_KTP400  
+# Supervisory PLC TIA-Portal S7-1215C KTP400  
 
 Developed entirely in TIA Portal v15.1 using Structured Text (SCL), with no third-party libraries.  
 The function block is fully optimized for the S7-1215C AC/DC/Rly, keeping a lean and maintainable structure with room for future expansion.  
