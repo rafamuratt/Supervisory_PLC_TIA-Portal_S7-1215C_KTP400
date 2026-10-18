@@ -1,4 +1,6 @@
-# Supervisory PLC TIA-Portal S7-1215C KTP400  
+# Supervisory PLC TIA-Portal S7-1215C KTP400 
+
+*Note: This repository contains PLC Structured Text (ST) code, identified by GitHub as Pascal.*
 
 Developed entirely in TIA Portal v15.1 using Structured Text (SCL), with no third-party libraries.  
 The function block is fully optimized for the S7-1215C AC/DC/Rly, keeping a lean and maintainable structure with room for future expansion.  
